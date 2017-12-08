@@ -14,11 +14,19 @@ var GeoJSON = require('mongoose-geojson-schema');
 var mongoose = require('mongoose');
 var compression = require('compression');
 var helmet = require('helmet');
-var config = require('./config.json');
+var mongoDB;
+if(process.env.MONGODB_URI !== 'undefined') {
+	mongoDB = process.env.MONGODB_URI;
+}
+else {
+	var config = require('./config.json');
+	mongoDB = 'mongodb://'+ config.username+':' +config.password+'@ds127506.mlab.com:27506/local_db';
+}
+
 
 var app = express();
 
-var mongoDB = process.env.MONGODB_URI || 'mongodb://'+ config.username+':' +config.password+'@ds127506.mlab.com:27506/local_db';
+
 mongoose.connect(mongoDB, { useMongoClient: true });
 var db = mongoose.connection;
 mongoose.connection.on('error', console.error.bind(console, 'MongoDB connection error:'));
