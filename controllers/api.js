@@ -40,7 +40,7 @@ exports.images = function(req, res) {
 };
 exports.showUser = function(req, res) {
 	var userKey = req.query.id;
-	User.find({userKey: userKey},'userKey nameTrip started ended',function(err, user) {
+	User.find({userKey: userKey},'userKey nameTrip nbImages nbComments started ended',function(err, user) {
 		console.log(user);
 			res.send(user);
 	   
@@ -73,4 +73,17 @@ exports.register = function(req, res) {
 		res.send(404);
 	}
 	
+}
+
+exports.validate= function(req, res)  {
+	console.log(req.body)
+	User.find({private_token: req.body['key']}, function(err, user) {
+		if(user != null && user != undefined) {
+			res.send(user);	
+		}
+		else{
+			res.send(404);
+		}
+	   
+	});
 }

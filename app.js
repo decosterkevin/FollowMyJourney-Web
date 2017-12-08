@@ -79,6 +79,7 @@ app.get('/tracks', api.tracks);
 app.get('/comments', api.comments);
 app.get('/user', api.showUser);
 app.get('/register', api.register);
+app.get('/validate', api.validate);
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
