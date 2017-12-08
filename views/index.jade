@@ -1,0 +1,173 @@
+doctype html
+html(lang='en-us')
+	head
+		// App Title
+		title KeepUP - Sharing journey
+		// App Description
+		meta(name='description', content='Capture is a free bootstrap v3.3.2 app landing page perfect to present you IOS, android or windows application in an elegant way.')
+		meta(charset='utf-8')
+		meta(name='author', content='pixelhint.com')
+		meta(http-equiv='X-UA-Compatible', content='IE=Edge')
+		meta(name='viewport', content='width=device-width, initial-scale=1.0, minimum-scale=1.0')
+		link(rel='stylesheet', type='text/css', href='stylesheets/bootstrap.css')
+		link(rel='stylesheet', type='text/css', href='stylesheets/owl.transitions.css')
+		link(rel='stylesheet', type='text/css', href='stylesheets/owl.carousel.css')
+		link(rel='stylesheet', type='text/css', href='stylesheets/animate.css')
+		link(rel='stylesheet', type='text/css', href='stylesheets/main.css')
+		link(href='https://fonts.googleapis.com/icon?family=Material+Icons', rel='stylesheet')
+		script(type='text/javascript', src='js/jquery.js')
+		script(type='text/javascript', src='js/ajaxchimp.js')
+		script(type='text/javascript', src='js/scrollTo.js')
+		script(type='text/javascript', src='js/owl.carousel.min.js')
+		script(type='text/javascript', src='js/wow.js')
+		script(type='text/javascript', src='js/parallax.js')
+		script(type='text/javascript', src='js/nicescroll.js')
+		script(type='text/javascript', src='vendors/qrcodejs/qrcode.js')
+		script(type='text/javascript', src='js/main.js')
+		script(type='text/javascript').
+			var widget1;
+			var onloadCallback = function() {
+				
+				widget1 = grecaptcha.render('captcha', {
+					'sitekey' : '6LeWEDwUAAAAACSJhfGczYHcoIyKF-vtrQfVdJ4y',
+					'theme' : 'light',
+					'secure': true
+				});
+			};
+		script(src='https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit', async='', defer='')
+			
+	body
+		// Header Section
+		header
+			.container
+				.logo.pull-left.animated.wow.fadeInLeft
+					img(src='img/logo.png', alt='', title='')
+				nav.pull-left
+					ul.list-unstyled
+						li.animated.wow.fadeInLeft(data-wow-delay='0s')
+							a(href='#about') About
+						li.animated.wow.fadeInLeft(data-wow-delay='.1s')
+							a(href='#app_features') Get started
+				.social.pull-right
+					button(id="myBtcButton", class="animated wow fadeInRight" data-wow-delay=".2s")
+
+		// End Header Section
+		
+		// The Modal
+		#myModal.modal
+			// Modal content
+			.modal-content
+				span.close ×
+				div(id="iframe")
+					
+		// The Modal
+		// Hero Section
+		section#hero.hero
+			.container
+				.caption
+					h1.text-uppercase.animated.wow.fadeInLeft Share your journey with your friends.
+					p.text-lowercase.animated.wow.fadeInLeft
+						| Share your roadtrip emotions through images, comment and position taken along the way!
+					a.app_store_btn.text-uppercase.animated.wow.fadeInLeft(href='/journey/?id=abcde')
+						span Web showcase
+					a.app_store_btn.text-uppercase.animated.wow.fadeInLeft(href='http://pixelhint.com/capture-free-responsive-bootstrap-app-landing-page-theme')
+						i.android_icon
+						span Android App
+		// End Hero Section
+
+		
+		// About Section
+		section#about.about
+			.container
+				.row
+					.col-md-6.vcenter.text-center.animated.wow.fadeInLeft
+						.device
+							img(src='img/lap.png', alt='', titl='')
+					.col-md-6.vcenter.animated.wow.fadeInRight
+						.features_list
+							h1.text-uppercase Allow friends to keep up with your journey
+							p
+								| Planned a roadtrip? keepup allows you to share your journey status alongside picture and comment gathered along the way! Thanks to an easy-to-use authentification scheme, you can generate as many journey as you want and share to link to your friend while being the only one to submit updates via your authentificated Android app.
+							p 
+								| Simply install the app, generate your journey (no sign in requiered!), and share your journey link to your friend and family
+								
+							ul.list-unstyled
+								li.camera_icon
+									span Upload images from your phone.
+								li.comment_icon
+									span Morbi non efficitur nibh sit amet est eros.
+								li.loc_icon
+									span Choose the position update frequency
+								li.share_icon
+									span Share your journey link and update into social network.
+											
+							a.app_store_btn2.text-uppercase.animated.wow.fadeInLeft(href='/journey/?id=abcde')
+								span Web showcase
+								
+		// End About Section
+		
+		
+		// App Features Section
+		section#app_features.app_features
+			.container
+				.row.text-center
+					h1.text-uppercase 
+						strong GET STARTED!
+				.row.text-center
+					.col-sm-6.col-md-6.vcenter.details.animated.wow.fadeInDown(data-wow-delay='0.s')
+						h1.text-uppercase STEP 1: Download the App
+						a(href='https://play.google.com/store/apps/details?id=decoster.cfdt&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1')
+							img(alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' width="200px")
+					.col-sm-6.col-md-6.vcenter.details.animated.wow.fadeInDown(data-wow-delay='.2s')
+						p
+							| Simply go the Google playstore, download and install the app. It will require a QR code scan or a secret seed...
+				.row.text-center
+					.col-sm-6.col-md-6.vcenter.details.animated.wow.fadeInDown(data-wow-delay='0s')
+						h1.text-uppercase Step 2: Generate a new journey
+						form(id="captchaForm", action='javascript:generateQR(grecaptcha.getResponse())')
+							#captcha
+							br
+							input(type='submit',id="generate", value='Generate new seed')
+						p(style="margin 10px")
+							| or
+						input#inputGenerate(type='text', placeHolder="enter existing seed", style="text-align:center")
+					.col-sm-6.col-md-6.vcenter.details.animated.wow.fadeInDown(data-wow-delay='.1s')
+						p
+							| ...Generate a new journey. It will display a QR code and the corresponding secret seed. We advice to write down the seed in case something goes wrong with your smartphone!
+				.row.text-center
+					.col-sm-6.col-md-6.vcenter.details.animated.wow.fadeInDown(data-wow-delay='0s').text-center
+						h1.text-uppercase Step 3: Activate your app and journey
+					.col-sm-6.col-md-6.vcenter.details.animated.wow.fadeInDown(data-wow-delay='.1s')
+						p
+							| Inside your freshly installed app, create and validate the new journey by scanning the QR code (or enter the secret seed). Finally, fill in your journey parameters and press enter to finalize the registration.
+						p(style="font-style:italic")
+							| Tips: If you travel with some mates, they can all register to the same journey as you did and upload their own pictures, commente etc.. Don't forget to disable position update for all but one roadtrip members.
+				.row
+					.col-sm-6.col-md-6.vcenter.details.animated.wow.fadeInDown(data-wow-delay='0s').text-center
+						h1.text-uppercase Step 4: Use the app
+					.col-sm-6.col-md-6.vcenter.details.animated.wow.fadeInDown(data-wow-delay='.1s')
+						p.text-center
+							| Congrats! You can now start your journey (you can pause or stop it at any moment). While travelling, you can:
+						ul
+							li send comment about your trip
+							li send images from the gallery or directly from the camera
+							li modify the GPS frequency update
+							li share the new status to any social media
+		// Footer Section
+		footer
+			ul.list-unstyled.list-inline.app_platform
+				li.animated.wow.fadeInDown(data-wow-delay='0s')
+					a(href='')
+						img(src='img/android_icon.png', alt='', title='')
+				li.animated.wow.fadeInDown(data-wow-delay='.1s')
+					a(href='https://github.com/decosterkevin/KeepUp')
+						img(src='img/github_icon.png', alt='', title='')
+			p.copyright.animated.wow.fadeIn(data-wow-duration='2s')
+				| © 2017 Template by 
+				a(href='http://pixelhint.com', target='_blank')
+					strong Pixelhint.com
+				|, modified by
+				a(href='https://github.com/decosterkevin', target='_blank') 
+					strong Decoster Kevin 
+				| . All Rights Reserved
+		// End Footer Section
