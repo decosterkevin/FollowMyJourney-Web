@@ -76,9 +76,7 @@ exports.register = function(req, res) {
 }
 
 exports.validate= function(req, res)  {
-	console.log(req.body)
-	console.log(req.headers)
-	User.find({private_token: req.body['key']}, function(err, user) {
+	User.find({private_token: req.headers['key']}, function(err, user) {
 		if(user != null && user != undefined) {
 			res.send(user);	
 		}
