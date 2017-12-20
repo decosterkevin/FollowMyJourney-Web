@@ -10,18 +10,23 @@ var shortId = require('short-mongo-id');
  */
 
 exports.uploadComment =  function(req, res) {
-	var reqBody = JSON.parse(req.body);
+	var reqBody = req.body;
 	var secretKey = reqBody.secretKey;
 	var param = reqBody.comment;
 	var date = reqBody.date;
 	var coordinates = reqBody.coordinates;
 	User.findOne({private_token: secretKey}, function(err, user) {
-		if(user != null && user != undefined) {
+		
+		if (err || user == undefined || user == null) {
+	        res.status(500).send(err);
+	    }  
+		else {
 			var com = new CommentTrack({userKey: user.userKey ,coordinates: coordinates, Timestamp: new Date(date), comment: param});
 			user.nbComments =  user.nbComments +1;
 			com.save(function (err) {
 			    if (err) {
 			      console.log(err);
+			      res.status(500).send(err);
 			      return
 			    }
 			    console.log('New comment for user ' + user.id);
@@ -30,6 +35,7 @@ exports.uploadComment =  function(req, res) {
 			user.save(function (err) {
 			    if (err) {
 			      console.log(err);
+			      res.status(500).send(err);
 			      return
 			    }
 			    console.log('user modified ' + user.id);
@@ -37,9 +43,6 @@ exports.uploadComment =  function(req, res) {
 			
 			res.status(200).send();
 			
-		}
-		else{
-			res.status(404).send();
 		}
 	   
 	});
@@ -54,11 +57,10 @@ exports.uploadJourneyStatus =  function(req, res) {
 	var date = reqBody.date;
 	
 	User.findOne({private_token: secretKey}, function(err, user) {
-		if (err) {
+		if (err || user == undefined || user == null) {
 	        res.status(500).send(err);
-	    } 
+	    }  
 		else {
-			if(user != null && user != undefined) {
 				if(status == "stop") {
 					user.ended = new Date(date);
 				}
@@ -71,31 +73,25 @@ exports.uploadJourneyStatus =  function(req, res) {
 				      res.status(500).send(err);
 				      return
 				    }
-				    console.log('New comment for user ' + user);
+				    console.log('user modified ' + user.id);
 				  });
 				res.status(200).send();
 			}
-			else{
-				res.status(404).send(err);
-			}
-		
-		}
 	});
 	
 }
 
 exports.uploadGPS = function(req, res) {
-	var reqBody = JSON.parse(req.body);
+	var reqBody = req.body;
 	var secretKey = reqBody.secretKey;
 	var gps = reqBody.gpsTracks;
 	var date = reqBody.date;
 	
 	User.findOne({private_token: secretKey}, function(err, user) {
-		if (err) {
+		if (err || user == undefined || user == null) {
 	        res.status(500).send(err);
-	    } 
+	    }  
 		else {
-			if(user != null && user != undefined) {
 				gps.forEach(function(item) {
 					var gps = new GpsTrack({ userKey: user.userKey,coordinates: [item.lat, item.lon, item.elev],  timestamp: new Date(item.date)});
 				    gps.save(function (err) {
@@ -106,19 +102,18 @@ exports.uploadGPS = function(req, res) {
 				    	}
 				    	
 					});
+				    res.status(200).send();
 				    
 				});
-				
-				res.status(500).send(err);
-			}
 		}
 	});
 }
 exports.deleteFile = function(req,res) {
-	var reqBody = JSON.parse(req.body);
+	var reqBody = req.body;
 	var secretKey = reqBody.secretKey;
 	var name = reqBody.name;
 	User.findOne({private_token: secretKey}, function(err, user) {
+		
 		if (err || user == undefined || user == null) {
 	        res.status(500).send(err);
 	    } 
@@ -156,6 +151,7 @@ exports.uploadFile= function(req, res) {
 	var comment = reqBody.comment;
 	var w = reqBody.width;
 	var h = reqBody.height;
+	
 	User.findOne({private_token: secretKey}, function(err, user) {
 		if(err || user == null || user == undefined) {
 			res.status(404).send();
@@ -179,7 +175,6 @@ exports.uploadFile= function(req, res) {
 				console.log(`The signed url for ${filename} is ${url}.`);
 				})
 				.catch(err => {
-					console.error('ERROR:', err);
 					res.status(404).send();
 				});
 			});
