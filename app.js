@@ -15,14 +15,14 @@ var mongoose = require('mongoose');
 var compression = require('compression');
 var helmet = require('helmet');
 var mongoDB;
-if(process.env.MONGODB_URI !== 'undefined') {
+if(process.env.MONGODB_URI != undefined) {
 	mongoDB = process.env.MONGODB_URI;
 }
 else {
 	var config = require('./config.json');
 	mongoDB = 'mongodb://'+ config.username+':' +config.password+'@ds127506.mlab.com:27506/local_db';
 }
-
+console.log(mongoDB)
 
 var app = express();
 
@@ -71,15 +71,22 @@ app.use(function(req, res) {
    res.render('404.jade', {title: '404: File Not Found'});
 });
 
-var api = require('./controllers/api.js');
+var apiGET = require('./controllers/apiGET.js');
+var apiPOST =require('./controllers/apiPOST.js');
 app.get('/', routes.index);
 app.get('/journey', routes.journey);
-app.get('/images', api.images);
-app.get('/tracks', api.tracks);
-app.get('/comments', api.comments);
-app.get('/user', api.showUser);
-app.get('/register', api.register);
-app.get('/validate', api.validate);
+app.get('/images', apiGET.images);
+app.get('/tracks', apiGET.tracks);
+app.get('/comments', apiGET.comments);
+app.get('/user', apiGET.showUser);
+app.get('/register', apiGET.register);
+app.get('/validate', apiGET.validate);
+
+app.get('/uploadFile', apiPOST.uploadFile)
+app.get('/uploadComment', apiPOST.uploadComment)
+app.get('/uploadJourneyStatus', apiPOST.uploadJourneyStatus)
+app.get('/deleteFile', apiPOST.deleteFile)
+app.get('/updateGps', apiPOST.uploadGPS)
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });

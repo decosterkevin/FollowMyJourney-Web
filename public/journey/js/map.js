@@ -140,8 +140,8 @@ function MyMap(map) {
 				
 				$.each(data, function(){
 					var currentIndex = index;
-					tmpArrayImages.push({path: this.path, timestamp:this.timestamp, index: index, comment: this.comment, coordinates: this.coordinates});
-					pswpArray.push({src: this.path, w:this.width, h:this.height});
+					tmpArrayImages.push({path: this.path+this.name, timestamp:this.timestamp, index: index, comment: this.comment, coordinates: this.coordinates});
+					pswpArray.push({src: this.path+this.name, w:this.width, h:this.height});
 					index = index + 1;
 				});
 				
@@ -154,7 +154,7 @@ function MyMap(map) {
 					arrayMarkers.push(mark);
 					var currentIndex = index;
 					var infoWindow = new google.maps.InfoWindow;
-					var div = $('<div class=myBox style="text-align:center"><img id=marker_'+index +' width=140 style="margin:auto" src='+ this.path+ ' alt="sometext" /> <div style=text-align:center><button style="font-size:20px,display:inline-block" type="button" id=image_'+index+'><i class="material-icons">collections</i></button><p style=display:inline-block>'+(new Date(this.timestamp)).toLocaleDateString()+'</p></div></div>');
+					var div = $('<div class=myBox style="text-align:center"><img id=marker_'+index +' width=140 style="margin:auto" src='+ this.path+this.name+ ' alt="sometext" /> <div style=text-align:center><button style="font-size:20px,display:inline-block" type="button" id=image_'+index+'><i class="material-icons">collections</i></button><p style=display:inline-block>'+(new Date(this.timestamp)).toLocaleDateString()+'</p></div></div>');
 					
 					var iDiv = document.createElement('img');
 					iDiv.addEventListener("click", function () {
@@ -176,7 +176,7 @@ function MyMap(map) {
 						var gallery = new PhotoSwipe(pswpElement, PhotoSwipeUI_Default, pswpArray, options);
 						gallery.init();
 					});
-					iDiv.src = this.path;
+					iDiv.src = this.path+this.name;
 					iDiv.id = 'marker_' + index;
 					iDiv.setAttribute("width", "100%");
 					

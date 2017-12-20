@@ -3,12 +3,12 @@ var mongoose = require('mongoose');
 
 
 var userSchema = new mongoose.Schema({
-		userKey: String,
-		private_token: String,
-		nameTrip: String,
+		userKey: {type : String, default : null},
+		private_token: {type : String, default : null},
+		nameTrip: {type : String, default : "my Journey Name"},
 		nbImages: {type : Number, default : 0},
 		nbComments: {type : Number, default : 0},
-		started: Date,
+		started: {type : Date, default : null},
 		ended: {type : Date, default : null}
 	})
 	

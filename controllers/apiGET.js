@@ -5,45 +5,48 @@ var CommentTrack = require('../models/commentTrack')
 var Image = require('../models/image')
 var crypto = require('crypto');
 var shortId = require('short-mongo-id');
+var crypto = require("crypto");
+var fs = require("fs");
+
 exports.tracks = function(req, res) {
 	var userKey = req.query.id;
 	User.find({userKey: userKey}, function(err, user) {
 		if(user != null && user != undefined) {
-				GpsTrack.find({userKey: userKey}).sort({timestamp: 'ascending'}).exec( function(err, replies) {
-						res.send(replies);
-				});
+			GpsTrack.find({userKey: userKey}).sort({timestamp: 'ascending'}).exec( function(err, replies) {
+				res.status(200).send(replies);
+			});
 		}
-	   
+
 	});
 };
 exports.comments = function(req, res) {
 	var userKey = req.query.id;
 	User.find({userKey: userKey}, function(err, user) {
 		if(user != null && user != undefined) {
-				CommentTrack.find({userKey: userKey}).sort({timestamp: 'ascending'}).exec(function(err, replies) {
-						res.send(replies);
-				});
+			CommentTrack.find({userKey: userKey}).sort({timestamp: 'ascending'}).exec(function(err, replies) {
+				res.status(200).send(replies);
+			});
 		}
-	   
+
 	});
 };
 exports.images = function(req, res) {
 	var userKey = req.query.id;
 	User.find({userKey: userKey}, function(err, user) {
 		if(user != null && user != undefined) {
-				Image.find({userKey: userKey}).sort({timestamp: 'ascending'}).exec(function(err, replies) {
-						res.send(replies);
-				});
+			Image.find({userKey: userKey}).sort({timestamp: 'ascending'}).exec(function(err, replies) {
+				res.status(200).send(replies);
+			});
 		}
-	   
+
 	});
 };
 exports.showUser = function(req, res) {
 	var userKey = req.query.id;
 	User.find({userKey: userKey},'userKey nameTrip nbImages nbComments started ended',function(err, user) {
 		console.log(user);
-			res.send(user);
-	   
+		res.status(200).send(user);
+
 	});
 };
 
@@ -51,28 +54,28 @@ exports.register = function(req, res) {
 	var process = true;
 	if (process) {
 		var seed = crypto.randomBytes(32,  function(err, buffer) { 
-			
+
 			var token = buffer.toString('hex');
 			userdetail = {private_token:token }
 			var user = new User(userdetail);
 			user.userKey = shortId(user._id);
-			
+
 			user.save(function (err) {
-			    if (err) {
-			      console.log(err);
-			      return
-			    }
-			    console.log('New user: ' + user);
-			  });
-			
-			res.send({secret_seed:user.private_token});
+				if (err) {
+					console.log(err);
+					return
+				}
+				console.log('New user: ' + user);
+			});
+
+			res.status(200).send({secret_seed:user.private_token});
 		});
 
 	}
 	else{
 		res.send(404);
 	}
-	
+
 }
 
 exports.validate= function(req, res)  {
@@ -81,8 +84,13 @@ exports.validate= function(req, res)  {
 			res.send(user[0]);	
 		}
 		else{
-			res.send(404);
+			res.status(404).send('oups, something went wrong');
 		}
-	   
+
 	});
 }
+
+
+
+
+

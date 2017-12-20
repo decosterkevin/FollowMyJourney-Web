@@ -19,6 +19,7 @@
     "stylus": "^0.49.1",
     "short-mongo-id": "*",
     "compression": "*",
-    "helmet": "*"
+    "helmet": "*",
+    "@google-cloud/storage": "*"
   }
 }
