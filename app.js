@@ -82,11 +82,11 @@ app.get('/user', apiGET.showUser);
 app.get('/register', apiGET.register);
 app.get('/validate', apiGET.validate);
 
-app.get('/uploadFile', apiPOST.uploadFile)
-app.get('/uploadComment', apiPOST.uploadComment)
-app.get('/uploadJourneyStatus', apiPOST.uploadJourneyStatus)
-app.get('/deleteFile', apiPOST.deleteFile)
-app.get('/updateGps', apiPOST.uploadGPS)
+app.post('/uploadFile', apiPOST.uploadFile)
+app.post('/uploadComment', apiPOST.uploadComment)
+app.post('/uploadJourneyStatus', apiPOST.uploadJourneyStatus)
+app.post('/deleteFile', apiPOST.deleteFile)
+app.post('/updateGps', apiPOST.uploadGPS)
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
