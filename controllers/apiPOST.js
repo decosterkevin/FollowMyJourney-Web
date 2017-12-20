@@ -46,6 +46,8 @@ exports.uploadComment =  function(req, res) {
 	
 };
 exports.uploadJourneyStatus =  function(req, res) {
+	console.log(req.body);
+	console.log(req.header)
 	var reqBody = JSON.parse(req.body);
 	var secretKey = reqBody.secretKey;
 	var status = reqBody.status;
