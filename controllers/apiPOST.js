@@ -14,14 +14,14 @@ exports.uploadComment =  function(req, res) {
 	var secretKey = reqBody.secretKey;
 	var param = reqBody.comment;
 	var date = reqBody.date;
-	var coordinates = reqBody.coordinates;
+	var coor = reqBody.coordinates;
 	User.findOne({private_token: secretKey}, function(err, user) {
 		
 		if (err || user == undefined || user == null) {
 	        res.status(500).send(err);
 	    }  
 		else {
-			var com = new CommentTrack({userKey: user.userKey ,coordinates: coordinates, Timestamp: new Date(date), comment: param});
+			var com = new CommentTrack({userKey: user.userKey ,coordinates: [coor.lat, coor.lon, coor.elev], Timestamp: new Date(date), comment: param});
 			user.nbComments =  user.nbComments +1;
 			com.save(function (err) {
 			    if (err) {
