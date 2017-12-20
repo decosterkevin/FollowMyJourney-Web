@@ -15,7 +15,7 @@ exports.uploadComment =  function(req, res) {
 	var param = reqBody.comment;
 	var date = reqBody.date;
 	var coordinates = reqBody.coordinates;
-	User.find({private_token: secretKey}, function(err, user) {
+	User.findOne({private_token: secretKey}, function(err, user) {
 		if(user != null && user != undefined) {
 			var com = new CommentTrack({userKey: user.userKey ,coordinates: coordinates, Timestamp: new Date(date), comment: param});
 			user.nbComments =  user.nbComments +1;
@@ -53,7 +53,7 @@ exports.uploadJourneyStatus =  function(req, res) {
 	var status = reqBody.status;
 	var date = reqBody.date;
 	
-	User.find({private_token: secretKey}, function(err, user) {
+	User.findOne({private_token: secretKey}, function(err, user) {
 		if (err) {
 	        res.status(500).send(err);
 	    } 
@@ -90,7 +90,7 @@ exports.uploadGPS = function(req, res) {
 	var gps = reqBody.gpsTracks;
 	var date = reqBody.date;
 	
-	User.find({private_token: secretKey}, function(err, user) {
+	User.findOne({private_token: secretKey}, function(err, user) {
 		if (err) {
 	        res.status(500).send(err);
 	    } 
@@ -118,7 +118,7 @@ exports.deleteFile = function(req,res) {
 	var reqBody = JSON.parse(req.body);
 	var secretKey = reqBody.secretKey;
 	var name = reqBody.name;
-	User.find({private_token: secretKey}, function(err, user) {
+	User.findOne({private_token: secretKey}, function(err, user) {
 		if (err || user == undefined || user == null) {
 	        res.status(500).send(err);
 	    } 
@@ -156,7 +156,7 @@ exports.uploadFile= function(req, res) {
 	var comment = reqBody.comment;
 	var w = reqBody.width;
 	var h = reqBody.height;
-	User.find({private_token: secretKey}, function(err, user) {
+	User.findOne({private_token: secretKey}, function(err, user) {
 		if(err || user == null || user == undefined) {
 			res.status(404).send();
 		}
