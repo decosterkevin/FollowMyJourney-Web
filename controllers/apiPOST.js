@@ -165,7 +165,7 @@ exports.uploadFile= function(req, res) {
 			.getSignedUrl(options)
 			.then(results => {
 				var url = results[0];
-				console.log(url)
+				
 				var image = new Image({userKey: user.userKey, path: path ,name: filename, width:w, height: h, coordinates: coordinates, timestamp: date, comment: comment});    
 				image.save(function (err) {
 				    if (err) {
@@ -173,9 +173,9 @@ exports.uploadFile= function(req, res) {
 				      res.status(500).send(err);
 				      return
 				    }
+				});
 				res.status(200).send({url:url});
-				console.log(`The signed url for ${filename} is ${url}.`);
-				})
+				console.log(url)
 				.catch(err => {
 					res.status(404).send();
 				});
