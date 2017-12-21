@@ -151,7 +151,7 @@ exports.uploadFile= function(req, res) {
 	var comment = reqBody.comment;
 	var w = reqBody.width;
 	var h = reqBody.height;
-	
+	var date = reqBody.date;
 	User.findOne({private_token: secretKey}, function(err, user) {
 		if(err || user == null || user == undefined) {
 			res.status(404).send();
@@ -166,7 +166,7 @@ exports.uploadFile= function(req, res) {
 			.then(results => {
 				var url = results[0];
 				
-				var image = new Image({userKey: user.userKey, path: path ,name: filename, width:w, height: h, coordinates: coordinates, timestamp: date, comment: comment});    
+				var image = new Image({userKey: user.userKey, path: path ,name: filename, width:w, height: h, coordinates: [coordinates.lat, coordinates.lon, coordinates.elev], timestamp: new Date(date), comment: comment});    
 				image.save(function (err) {
 				    if (err) {
 				      console.log(err);
