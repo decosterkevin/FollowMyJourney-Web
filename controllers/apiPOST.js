@@ -158,12 +158,14 @@ exports.uploadFile= function(req, res) {
 		}
 		else {
 			// Get a signed URL for the file
+			console.log("user find")
 			storage
 			.bucket(bucketName)
 			.file(filename)
 			.getSignedUrl(options)
 			.then(results => {
-				const url = results[0];
+				var url = results[0];
+				console.log(url)
 				var image = new Image({userKey: user.userKey, path: path ,name: filename, width:w, height: h, coordinates: coordinates, timestamp: date, comment: comment});    
 				image.save(function (err) {
 				    if (err) {
