@@ -81,7 +81,7 @@ exports.register = function(req, res) {
 exports.validate= function(req, res)  {
 	User.findOne({private_token: req.headers['key']}, function(err, user) {
 		if(user != null && user != undefined) {
-			user.nameTrip = req.headers['title']
+			user.nameTrip = req.headers['param']
 			user.save(function (err) {
 				if (err) {
 					console.log(err);
