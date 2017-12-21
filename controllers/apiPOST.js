@@ -131,6 +131,30 @@ exports.deleteFile = function(req,res) {
 		}
 	});
 }
+exports.testSigned = function(req, res) {
+	var bucketName='tactical-factor-175508.appspot.com'
+		const Storage = require('@google-cloud/storage');
+	// Creates a client
+	const storage = new Storage();
+	var now = new Date();
+	const options = {
+			action: 'write',
+			expires: Date.now() + 3600*1000,
+			contentType: "image/jpeg"
+		};
+	var filename = "test.jpg"
+	storage
+	.bucket(bucketName)
+	.file(filename)
+	.getSignedUrl(options)
+	.then(results => {
+		var url = results[0];
+		console.log(url)
+		.catch(err => {
+			res.status(404).send();
+		});
+	});
+}
 
 exports.uploadFile= function(req, res) {
 	var reqBody = req.body;
@@ -139,9 +163,10 @@ exports.uploadFile= function(req, res) {
 	// Creates a client
 	const storage = new Storage();
 	const options = {
-		action: 'write',
-		expires: new Date().getTime()+3600,
-	};
+			action: 'write',
+			expires: Date.now() + 3600*1000,
+			contentType: "image/jpeg"
+		};
 	
 	var filename=reqBody.filename
 	var secretKey = reqBody.secretKey;

@@ -81,6 +81,7 @@ app.get('/comments', apiGET.comments);
 app.get('/user', apiGET.showUser);
 app.get('/register', apiGET.register);
 app.get('/validate', apiGET.validate);
+app.get('/test', apiPOST.testSigned);
 
 app.post('/uploadFile', apiPOST.uploadFile)
 app.post('/uploadComment', apiPOST.uploadComment)
