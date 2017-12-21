@@ -134,7 +134,7 @@ exports.deleteFile = function(req,res) {
 
 exports.uploadFile= function(req, res) {
 	var reqBody = req.body;
-	var bucketName='factor-175508.appspot.com'
+	var bucketName='tactical-factor-175508.appspot.com'
 	const Storage = require('@google-cloud/storage');
 	// Creates a client
 	const storage = new Storage();
