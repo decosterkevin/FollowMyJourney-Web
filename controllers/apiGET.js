@@ -89,7 +89,7 @@ exports.validate= function(req, res)  {
 				}
 				console.log('user modified: ' + user);
 			});
-			user.status(200).send(user);
+			res.status(200).send(user);
 		}
 		else{
 			res.status(404).send('oups, something went wrong');
