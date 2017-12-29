@@ -24,12 +24,12 @@ function MyMap(map) {
 					var tmpTimestamp = [];
 					
 					var lastElem = data[data.length -1];
-					var lastCoord = new google.maps.LatLng(lastElem.coordinates[1] , lastElem.coordinates[0] );
+					var lastCoord = new google.maps.LatLng(lastElem.coordinates[0] , lastElem.coordinates[1] );
 					var min_dist= 1500;
 					$.each(data, function(){
 						
-						var ptnLatLng =  new google.maps.LatLng(this.coordinates[1] , this.coordinates[0]);
-						var ptn = {lat:this.coordinates[1] , lng: this.coordinates[0]};
+						var ptnLatLng =  new google.maps.LatLng(this.coordinates[0] , this.coordinates[1]);
+						var ptn = {lat:this.coordinates[0] , lng: this.coordinates[1]};
 						var distance = google.maps.geometry.spherical.computeDistanceBetween(lastCoord, ptnLatLng);
 						if(distance > min_dist)
 						{
@@ -151,7 +151,7 @@ function MyMap(map) {
 				index = 0;
 				$.each(data, function(){
 					var mark = new google.maps.Marker({
-			            position: new google.maps.LatLng(this.coordinates[1] , this.coordinates[0] ),
+			            position: new google.maps.LatLng(this.coordinates[0] , this.coordinates[1] ),
 						icon : "images/image.png"
 			          });
 					arrayMarkers.push(mark);
@@ -226,7 +226,7 @@ function MyMap(map) {
 						$.each(data, function(){
 							var infoWindow = new google.maps.InfoWindow;
 							var mark = new google.maps.Marker({
-					            position: new google.maps.LatLng(this.coordinates[1] , this.coordinates[0] ),
+					            position: new google.maps.LatLng(this.coordinates[0] , this.coordinates[1] ),
 								icon : "images/comment.png"
 					          });
 							arrayMarkers.push(mark);
@@ -265,7 +265,7 @@ function MyMap(map) {
 				$.each(data, function(){
 					var infoWindow = new google.maps.InfoWindow;
 					var mark = new google.maps.Marker({
-			            position: new google.maps.LatLng(this.coordinates[1] , this.coordinates[0] ),
+			            position: new google.maps.LatLng(this.coordinates[0] , this.coordinates[1] ),
 						icon : "images/comment.png"
 			          });
 					arrayMarkers.push(mark);
