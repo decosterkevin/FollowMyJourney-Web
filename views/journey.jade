@@ -46,13 +46,14 @@ html
 					});
 					console.log(param);
 					var myMap = new MyMap(googleMap);
+					myMap.addImages(param.id);
 					myMap.initMap(param.id);
 					myMap.addListeners();
 					
-					myMap.addImages(param.id);
+					
 				}
 				else {
-					//window.location.replace("404");
+					window.location.replace("404");
 				}
 				
 			}

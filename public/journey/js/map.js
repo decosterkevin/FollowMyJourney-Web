@@ -8,7 +8,9 @@ function MyMap(map) {
 	this.polyline = null;
 	this.totalDistance = 0;
 	this.imageArrays = [];
-	this.initMap = function(userID) {
+	this.bounds = new google.maps.LatLngBounds();
+	this.initMap = function(userID, bounds) {
+		console.log(bounds)
 		$.ajax({
 			url:'/tracks?id='+userID,
 			async: false,
@@ -16,16 +18,16 @@ function MyMap(map) {
 			type: "GET",
 			dataType: "json",
 			success: function(data) {
+				
 				if(data.length > 0) {
 					var polylines = [];
-	
-					var bounds = new google.maps.LatLngBounds();
 					var tmpCoordinates = [];
 					var tmpTimestamp = [];
 					
 					var lastElem = data[data.length -1];
 					var lastCoord = new google.maps.LatLng(lastElem.coordinates[0] , lastElem.coordinates[1] );
 					var min_dist= 1500;
+					var boundstmp = this.bounds;
 					$.each(data, function(){
 						
 						var ptnLatLng =  new google.maps.LatLng(this.coordinates[0] , this.coordinates[1]);
@@ -36,10 +38,11 @@ function MyMap(map) {
 							tmpTimestamp.push(this.timestamp);
 							polylines.push(ptn);
 							tmpCoordinates.push(ptnLatLng);
-							bounds.extend(ptn);
+							boundstmp.extend(ptn);
 						}
 						
 					});
+					this.bounds = boundstmp;
 					min_dist = google.maps.geometry.spherical.computeDistanceBetween(lastCoord, tmpCoordinates[tmpCoordinates.length-1]);
 					console.log(min_dist);
 					this.polyline = new google.maps.Polyline({
@@ -51,24 +54,8 @@ function MyMap(map) {
 					});
 					this.totalDistance = google.maps.geometry.spherical.computeLength(this.polyline.getPath().getArray());
 					this.polyline.setMap(this.myMap);
-					this.myMap.fitBounds(bounds);
-					var style = new StyledMap();
-					var keys = style.getKeys();
-					var elem = $("#style");
-					for (k = 0; k < keys.length; k++) {
-						//<option value="chicago, il">Chicago</option>
-						var opt = $('<option>');
-						opt.attr('value', keys[k]);
-						$('<p>' + (keys[k]).toString() + '</p>').appendTo(opt);
-						opt.appendTo(elem);
-					}
-					var control = document.getElementById('floating-panel');
-					control.style.display = 'block';
 					
-					var control2 = document.getElementById('panelBtn');
 					
-					this.myMap.controls[google.maps.ControlPosition.TOP_CENTER].push(control);
-					this.myMap.controls[google.maps.ControlPosition.TOP_LEFT].push(control2);
 					var tmpMap = this.myMap;
 					var onChangeHandler = function () {
 						style.changeStyle(tmpMap);
@@ -93,7 +80,27 @@ function MyMap(map) {
 	//				google.maps.event.addListener(flightPath,'mouseout', function() {
 	//				infoWindow.close();
 	//				});
+					
 				}
+				var style = new StyledMap();
+				var keys = style.getKeys();
+				var elem = $("#style");
+				for (k = 0; k < keys.length; k++) {
+					//<option value="chicago, il">Chicago</option>
+					var opt = $('<option>');
+					opt.attr('value', keys[k]);
+					$('<p>' + (keys[k]).toString() + '</p>').appendTo(opt);
+					opt.appendTo(elem);
+				}
+				var control = document.getElementById('floating-panel');
+				control.style.display = 'block';
+				
+				var control2 = document.getElementById('panelBtn');
+				
+				this.myMap.controls[google.maps.ControlPosition.TOP_CENTER].push(control);
+				this.myMap.controls[google.maps.ControlPosition.TOP_LEFT].push(control2);
+				this.myMap.fitBounds(this.bounds);
+				
 			}
 		});
 	}
@@ -121,7 +128,7 @@ function MyMap(map) {
 		
 	}
 	
-	this.addImages = function(userID) {
+	this.addImages = function(userID, bounds) {
 		
 		
 		
@@ -149,11 +156,13 @@ function MyMap(map) {
 				});
 				
 				index = 0;
+				var boundsTmp =this.bounds;
 				$.each(data, function(){
 					var mark = new google.maps.Marker({
 			            position: new google.maps.LatLng(this.coordinates[0] , this.coordinates[1] ),
 						icon : "images/image.png"
 			          });
+					boundsTmp.extend({lat:this.coordinates[0] , lng: this.coordinates[1]});
 					arrayMarkers.push(mark);
 					var currentIndex = index;
 					var infoWindow = new google.maps.InfoWindow;
@@ -212,7 +221,7 @@ function MyMap(map) {
 					});
 					index ++;
 				});
-				
+				this.bounds = boundsTmp;
 				this.imageArrays = tmpArrayImages;
 				
 				$.ajax({
@@ -223,12 +232,15 @@ function MyMap(map) {
 					dataType: "json",
 					success: function(data) {
 						var map = this.myMap;
+						
+						var boundsTmp = this.bounds;
 						$.each(data, function(){
 							var infoWindow = new google.maps.InfoWindow;
 							var mark = new google.maps.Marker({
 					            position: new google.maps.LatLng(this.coordinates[0] , this.coordinates[1] ),
 								icon : "images/comment.png"
 					          });
+							boundsTmp.extend({lat:this.coordinates[0] , lng: this.coordinates[1]});
 							arrayMarkers.push(mark);
 							var div = $('<div style="text-align:center"><p style=text-align:center>'+(new Date(this.timestamp)).toLocaleDateString()+'</p><blockquote style=font-style:italic>  &ldquo; '+this.comment+' &rdquo;,</blockquote></div>');
 
@@ -239,11 +251,13 @@ function MyMap(map) {
 						
 
 						});
+						this.bounds = boundsTmp;
 					}
 					
 				});
 				var markerCluster = new MarkerClusterer(map, arrayMarkers,
 	            {imagePath: 'https://developers.google.com/maps/documentation/javascript/examples/markerclusterer/m'});
+
 			}
 		});
 		
@@ -268,6 +282,7 @@ function MyMap(map) {
 			            position: new google.maps.LatLng(this.coordinates[0] , this.coordinates[1] ),
 						icon : "images/comment.png"
 			          });
+					this.bounds.extend({lat:this.coordinates[0] , lng: this.coordinates[1]});
 					arrayMarkers.push(mark);
 					var div = $('<div style="text-align:center"><blockquote>'+this.comment+'</blockquote><p style=text-align:center>'+(new Date(this.timestamp)).toLocaleDateString()+'</p></div>');
 
