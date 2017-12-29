@@ -34,6 +34,7 @@ html
 			}
 			function load() {
 				var param = getAllUrlParams(document.location.search);
+				console.log(param)
 				var user = new User();
 				var res = user.init(param.id);
 				if(param.id != undefined && param.id != null && res) {
@@ -51,7 +52,7 @@ html
 					myMap.addImages(param.id);
 				}
 				else {
-					window.location.replace("404");
+					//window.location.replace("404");
 				}
 				
 			}

@@ -30,8 +30,8 @@ function getAllUrlParams(url) {
       var paramValue = typeof(a[1])==='undefined' ? true : a[1];
 
       // (optional) keep case consistent
-      paramName = paramName.toLowerCase();
-      paramValue = paramValue.toLowerCase();
+      //paramName = paramName.toLowerCase();
+      //paramValue = paramValue.toLowerCase();
 
       // if parameter name already exists
       if (obj[paramName]) {

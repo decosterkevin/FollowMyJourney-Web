@@ -102,20 +102,23 @@ function MyMap(map) {
 		var time = this.timestamps;
 		var coord = this.coordinates;
 		var map = this.myMap;
-		google.maps.event.addListener(this.polyline,'click', function(e) {
-			var minDist = Number.MAX_VALUE;
-			var index = 0;
-			for(i = 0; i < time.length; i++) {
-				var distance = google.maps.geometry.spherical.computeDistanceBetween(e.latLng, coord[i]);
-				if (distance < minDist) {
-					minDist = distance;
-					index = i;
+		if(this.polyline != null) {
+			google.maps.event.addListener(this.polyline,'click', function(e) {
+				var minDist = Number.MAX_VALUE;
+				var index = 0;
+				for(i = 0; i < time.length; i++) {
+					var distance = google.maps.geometry.spherical.computeDistanceBetween(e.latLng, coord[i]);
+					if (distance < minDist) {
+						minDist = distance;
+						index = i;
+					}
 				}
-			}
-			infoWindow.setPosition(e.latLng);
-			infoWindow.setContent("<b>Date:</b> " +time[index] +"<br> <b>Coordinates</b> (lat,lng) :"+e.latLng.lat().toFixed(4) + ", " +e.latLng.lng().toFixed(4));
-			infoWindow.open(map);
-		});
+				infoWindow.setPosition(e.latLng);
+				infoWindow.setContent("<b>Date:</b> " +time[index] +"<br> <b>Coordinates</b> (lat,lng) :"+e.latLng.lat().toFixed(4) + ", " +e.latLng.lng().toFixed(4));
+				infoWindow.open(map);
+			});
+		}
+		
 	}
 	
 	this.addImages = function(userID) {
