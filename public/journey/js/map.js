@@ -26,13 +26,14 @@ function MyMap(map) {
 					
 					var lastElem = data[data.length -1];
 					var lastCoord = new google.maps.LatLng(lastElem.coordinates[0] , lastElem.coordinates[1] );
-					var min_dist= 1500;
+					var min_dist= 500;
 					var boundstmp = this.bounds;
 					$.each(data, function(){
 						
 						var ptnLatLng =  new google.maps.LatLng(this.coordinates[0] , this.coordinates[1]);
 						var ptn = {lat:this.coordinates[0] , lng: this.coordinates[1]};
 						var distance = google.maps.geometry.spherical.computeDistanceBetween(lastCoord, ptnLatLng);
+						console.log(distance);
 						if(distance > min_dist)
 						{
 							tmpTimestamp.push(this.timestamp);
@@ -43,7 +44,10 @@ function MyMap(map) {
 						
 					});
 					this.bounds = boundstmp;
-					min_dist = google.maps.geometry.spherical.computeDistanceBetween(lastCoord, tmpCoordinates[tmpCoordinates.length-1]);
+					if(tmpCoordinates.length != 0) {
+						min_dist = google.maps.geometry.spherical.computeDistanceBetween(lastCoord, tmpCoordinates[tmpCoordinates.length-1]);
+
+					}
 					console.log(min_dist);
 					this.polyline = new google.maps.Polyline({
 						path: polylines,
