@@ -87,7 +87,7 @@ app.post('/uploadFile', apiPOST.uploadFile)
 app.post('/uploadComment', apiPOST.uploadComment)
 app.post('/uploadJourneyStatus', apiPOST.uploadJourneyStatus)
 app.post('/deleteFile', apiPOST.deleteFile)
-app.post('/updateGPS', apiPOST.uploadGPS)
+app.post('/uploadGPS', apiPOST.uploadGPS)
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
