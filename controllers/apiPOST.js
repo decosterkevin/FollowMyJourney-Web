@@ -82,7 +82,7 @@ exports.uploadJourneyStatus =  function(req, res) {
 }
 
 exports.uploadGPS = function(req, res) {
-	var reqBody = req.body;
+	var reqBody = JSON.parse(req.body);
 	var secretKey = reqBody.secretKey;
 	var gps = reqBody.coordinates;
 	var date = reqBody.date;
