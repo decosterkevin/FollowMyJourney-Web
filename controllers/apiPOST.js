@@ -86,6 +86,7 @@ exports.uploadGPS = function(req, res) {
 	var secretKey = reqBody.secretKey;
 	var gps = reqBody.coordinates;
 	var date = reqBody.date;
+	console.log(reqBody);
 	User.findOne({private_token: secretKey}, function(err, user) {
 		if (err || user == undefined || user == null) {
 	        res.status(500).send(err);
