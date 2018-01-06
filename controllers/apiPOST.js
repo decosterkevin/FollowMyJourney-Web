@@ -95,9 +95,14 @@ exports.uploadGPS = function(req, res) {
 				
 				for(i=0; i< gps.length; i++) {
 					var item = gps[i];
-					console.log(i+ " "+ item.lat + " " + item.lon + " " + item.date + " " + item.speed);
+					var lat = item.lat;
+					var lon = item.lon;
+					var elev = item.elev;
+					var d = item.date;
+					var speed = item.speed
+					console.log(i+ " "+ lat + " " + lon + " " + d + " " + speed);
 					
-					var gpsTmp = new GpsTrack({ userKey: user.userKey,coordinates: [item.lat, item.lon, item.elev],  timestamp: new Date(item.date), speed: item.speed });
+					var gpsTmp = new GpsTrack({ userKey: user.userKey,coordinates: [lat, lon, elev],  timestamp: new Date(d), speed: speed });
 					gpsTmp.save(function (err) {
 				    	if(err) {
 				    		console.log(err);
