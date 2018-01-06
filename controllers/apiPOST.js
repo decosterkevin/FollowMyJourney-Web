@@ -86,13 +86,14 @@ exports.uploadGPS = function(req, res) {
 	var secretKey = reqBody.secretKey;
 	var gps = reqBody.coordinates;
 	var date = reqBody.date;
+	console.log(gps);
 	User.findOne({private_token: secretKey}, function(err, user) {
 		if (err || user == undefined || user == null) {
 	        res.status(500).send(err);
 	    }  
 		else {
 				gps.forEach(function(item) {
-					console.log(item)
+					console.log("ff"+ item)
 					var gpsTmp = new GpsTrack({ userKey: user.userKey,coordinates: [item.lat, item.lon, item.elev],  timestamp: new Date(item.date), speed: item.speed });
 					gpsTmp.save(function (err) {
 				    	if(err) {
