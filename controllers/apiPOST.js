@@ -100,6 +100,7 @@ exports.uploadGPS = function(req, res) {
 					var gpsTmp = new GpsTrack({ userKey: user.userKey,coordinates: [item.lat, item.lon, item.elev],  timestamp: new Date(item.date), speed: item.speed });
 					gpsTmp.save(function (err) {
 				    	if(err) {
+				    		console.log(err);
 				    		res.status(500).send(err);
 				    		return
 				    	}
