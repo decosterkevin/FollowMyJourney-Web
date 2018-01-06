@@ -84,7 +84,7 @@ exports.uploadJourneyStatus =  function(req, res) {
 exports.uploadGPS = function(req, res) {
 	var reqBody = req.body;
 	var secretKey = reqBody.secretKey;
-	var gps = reqBody.coordinates;
+	var gps = parse(reqBody.coordinates);
 	var date = reqBody.date;
 	console.log(gps);
 	User.findOne({private_token: secretKey}, function(err, user) {
