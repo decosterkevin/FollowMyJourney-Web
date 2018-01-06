@@ -92,6 +92,7 @@ exports.uploadGPS = function(req, res) {
 	        res.status(500).send(err);
 	    }  
 		else {
+				console.log(gps[0]);
 				gps.forEach(function(item) {
 					console.log("ff"+ item)
 					var gpsTmp = new GpsTrack({ userKey: user.userKey,coordinates: [item.lat, item.lon, item.elev],  timestamp: new Date(item.date), speed: item.speed });
