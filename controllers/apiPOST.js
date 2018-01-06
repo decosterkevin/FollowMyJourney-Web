@@ -92,10 +92,11 @@ exports.uploadGPS = function(req, res) {
 	        res.status(500).send(err);
 	    }  
 		else {
-				console.log(gps[0]);
-				gps.forEach(function(item) {
-					console.log("ff"+ item)
-					var gpsTmp = new GpsTrack({ userKey: user.userKey,coordinates: [item.lat, item.lon, item.elev],  timestamp: new Date(item.date), speed: item.speed });
+				
+				for(i=0; i< gps.length; i++) {
+					var item = gps[i];
+					console.log(item);
+					var gpsTmp = new GpsTrack({ userKey: user.userKey,coordinates: [itJson.lat, itJson.lon, itJson.elev],  timestamp: new Date(itJson.date), speed: itJson.speed });
 					gpsTmp.save(function (err) {
 				    	if(err) {
 				    		res.status(500).send(err);
@@ -105,11 +106,10 @@ exports.uploadGPS = function(req, res) {
 						 res.status(200).send();
 				    	
 					});
+				}
 				   
-				    
-				});
-		}
-	});
+			}   
+		});
 }
 
 
