@@ -84,30 +84,36 @@ exports.uploadJourneyStatus =  function(req, res) {
 exports.uploadGPS = function(req, res) {
 	var reqBody = req.body;
 	var secretKey = reqBody.secretKey;
-	var gps = reqBody.gpsTracks;
+	var gps = reqBody.coordinates;
 	var date = reqBody.date;
-	
+	console.log(reqBody);
 	User.findOne({private_token: secretKey}, function(err, user) {
 		if (err || user == undefined || user == null) {
 	        res.status(500).send(err);
 	    }  
 		else {
+				console.log("gps find");
 				gps.forEach(function(item) {
-					var gps = new GpsTrack({ userKey: user.userKey,coordinates: [item.lat, item.lon, item.elev],  timestamp: new Date(item.date)});
+					console.log("marker find")
+					var gps = new GpsTrack({ userKey: user.userKey,coordinates: [item.lat, item.lon, item.elev],  timestamp: new Date(item.date), speed: item.speed });
 				    gps.save(function (err) {
 				    	if(err) {
-				    		console.log('error gps add: id' +user.id);
+				    		
 				    		res.status(500).send(err);
 				    		return
 				    	}
+				    	 console.log('error gps add: id' +user.id);
+						 res.status(200).send();
 				    	
 					});
-				    res.status(200).send();
+				   
 				    
 				});
 		}
 	});
 }
+
+
 exports.deleteFile = function(req,res) {
 	var reqBody = req.body;
 	var secretKey = reqBody.secretKey;
