@@ -93,8 +93,10 @@ exports.uploadGPS = function(req, res) {
 		else {
 				
 				for(i=0; i< gps.length; i++) {
-					var item = JSON.parse(gps[i]);
-					console.log(item);
+					var item = gps[i];
+					console.log(i);
+					console.log(item.lat + " " + item.lon + " " + item.date + " " + item.speed);
+					
 					var gpsTmp = new GpsTrack({ userKey: user.userKey,coordinates: [item.lat, item.lon, item.elev],  timestamp: new Date(item.date), speed: item.speed });
 					gpsTmp.save(function (err) {
 				    	if(err) {
