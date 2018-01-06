@@ -82,11 +82,11 @@ exports.uploadJourneyStatus =  function(req, res) {
 }
 
 exports.uploadGPS = function(req, res) {
-	var reqBody = JSON.parse(req.body);
+	var reqBody = req.body;
 	var secretKey = reqBody.secretKey;
 	var gps = reqBody.coordinates;
 	var date = reqBody.date;
-	console.log(reqBody);
+	console.log(gps);
 	User.findOne({private_token: secretKey}, function(err, user) {
 		if (err || user == undefined || user == null) {
 	        res.status(500).send(err);
@@ -95,8 +95,7 @@ exports.uploadGPS = function(req, res) {
 				
 				for(i=0; i< gps.length; i++) {
 					var item = gps[i];
-					console.log(i);
-					console.log(item.lat + " " + item.lon + " " + item.date + " " + item.speed);
+					console.log(i+ " "+ item.lat + " " + item.lon + " " + item.date + " " + item.speed);
 					
 					var gpsTmp = new GpsTrack({ userKey: user.userKey,coordinates: [item.lat, item.lon, item.elev],  timestamp: new Date(item.date), speed: item.speed });
 					gpsTmp.save(function (err) {
