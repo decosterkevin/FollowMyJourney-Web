@@ -95,7 +95,8 @@ exports.validate= function(req, res)  {
 			Image.find({userKey : user.userKey}, 'path name').sort({timestamp: 'ascending'}).exec(function(err, replies) {
 				
 				var response = {user:user, images : replies};
-				console.log('image find: ' + response);
+				console.log('image find: ' + response.user);
+				console.log('image find: ' + response.images);
 				res.status(200).send(response);
 			});
 			
