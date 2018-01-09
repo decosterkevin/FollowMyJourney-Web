@@ -92,7 +92,7 @@ exports.validate= function(req, res)  {
 				console.log('user modified: ' + user);
 			});
 			
-			Image.find({userKey: userKey}, 'path name').sort({timestamp: 'ascending'}).exec(function(err, replies) {
+			Image.find({userKey : user.userKey}, 'path name').sort({timestamp: 'ascending'}).exec(function(err, replies) {
 				res.status(200).send({user:user, images : replies});
 			});
 			
