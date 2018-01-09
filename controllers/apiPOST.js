@@ -131,11 +131,11 @@ exports.deleteFile = function(req,res) {
 			Image.findOne({userKey: user.userKey, name: name}, function(err, img) {
 				if(err || img == null || img == undefined) {
 		    		console.log('error gps add: id' +user.id);
-		    		res.status(500).send(err);
+		    		res.status(200).send();
 		    	}
 				else {
 					img.remove();
-					res.status(200).send(err);
+					res.status(200).send();
 				}
 			});
 		}
