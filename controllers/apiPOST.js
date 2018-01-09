@@ -175,7 +175,7 @@ exports.uploadFile= function(req, res) {
 	const options = {
 			action: 'write',
 			expires: Date.now() + 3600*1000,
-			contentType: "image/jpeg"
+			contentType: "image/png"
 		};
 	
 	var filename=reqBody.filename
