@@ -81,6 +81,8 @@ exports.register = function(req, res) {
 exports.validate= function(req, res)  {
 	User.findOne({private_token: req.headers['key']}, function(err, user) {
 		if(user != null && user != undefined) {
+			
+			
 			user.nameTrip = req.headers['param']
 			user.save(function (err) {
 				if (err) {
@@ -89,7 +91,11 @@ exports.validate= function(req, res)  {
 				}
 				console.log('user modified: ' + user);
 			});
-			res.status(200).send(user);
+			
+			Image.find({userKey: userKey}, 'path name').sort({timestamp: 'ascending'}).exec(function(err, replies) {
+				res.status(200).send({user:user, images : replies});
+			});
+			
 		}
 		else{
 			res.status(404).send('oups, something went wrong');
