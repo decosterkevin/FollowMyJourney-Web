@@ -28,6 +28,25 @@ function generateQR(res) {
 
 }
 
+function sendEmail() {
+	var form = document.getElementById("emailForm");
+	var xhr = new XMLHttpRequest();
+	xhr.open("POST", '/sendEmail', true);
+
+	//Send the proper header information along with the request
+	xhr.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+
+	xhr.onreadystatechange = function() {//Call a function when the state changes.
+	    if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
+	        // Request finished. Do processing here.
+	    }
+	}
+	//var data = {"to": form["mc-email"].value, "subject" : form["mc-subject"].value, "msg": form["mc-message"].value };
+	var data = "to=" +form["mc-email"].value + "&subject=" +form["mc-subject"].value +"&msg=" +form["mc-message"].value
+	console.log(data)
+	xhr.send(data); 
+}
+
 function qr(key) {
 	var modal = document.getElementById('myModal');	
 	document.getElementById("iframe").innerHTML = '<div id="qrcode"></div>';

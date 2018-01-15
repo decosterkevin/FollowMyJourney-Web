@@ -26,6 +26,7 @@ html(lang='en-us')
 		script(type='text/javascript', src='js/main.js')
 		script(type='text/javascript').
 			var widget1;
+			var widgetEmail;
 			var onloadCallback = function() {
 				
 				widget1 = grecaptcha.render('captcha', {
@@ -33,7 +34,13 @@ html(lang='en-us')
 					'theme' : 'light',
 					'secure': true
 				});
+				widgetEmail = grecaptcha.render('reCaptchaEmail', {
+					'sitekey' : '6LeWEDwUAAAAACSJhfGczYHcoIyKF-vtrQfVdJ4y',
+					'theme' : 'light',
+					'secure': true
+				});
 			};
+			
 		script(src='https://www.google.com/recaptcha/api.js?onload=onloadCallback&render=explicit', async='', defer='')
 			
 	body
@@ -41,16 +48,17 @@ html(lang='en-us')
 		header
 			.container
 				.logo.pull-left.animated.wow.fadeInLeft
-					img(src='img/logo.png', alt='', title='')
+					img(src='img/keepupInit_web.png', alt='', title='')
 				nav.pull-left
-					ul.list-unstyled
+					ul.list-unstyledkeepupInit_web
 						li.animated.wow.fadeInLeft(data-wow-delay='0s')
 							a(href='#about') About
 						li.animated.wow.fadeInLeft(data-wow-delay='.1s')
 							a(href='#app_features') Get started
-				.social.pull-right
-					button(id="myBtcButton", class="animated wow fadeInRight" data-wow-delay=".2s")
-
+						li.animated.wow.fadeInLeft(data-wow-delay='.1s')
+							a(href='', id="myBtcButton") Support us
+						li.animated.wow.fadeInLeft(data-wow-delay='.1s')
+							a(href='#sub_box') Contact me
 		// End Header Section
 		
 		// The Modal
@@ -87,7 +95,7 @@ html(lang='en-us')
 						.features_list
 							h1.text-uppercase Allow friends to keep up with your journey
 							p
-								| Planned a roadtrip? keepup allows you to share your journey status alongside picture and comment gathered along the way! Thanks to an easy-to-use authentification scheme, you can generate as many journey as you want and share to link to your friend while being the only one to submit updates via your authentificated Android app.
+								| Planned a roadtrip? FollowMyJourney allows you to share your journey status alongside picture and comment gathered along the way! Thanks to an easy-to-use authentification scheme, you can generate as many journey as you want and share to link to your friend while being the only one to submit updates via your authentificated Android app.
 							p 
 								| Simply install the app, generate your journey (no sign in requiered!), and share your journey link to your friend and family
 								
@@ -95,12 +103,13 @@ html(lang='en-us')
 								li.camera_icon
 									span Upload images from your phone.
 								li.comment_icon
-									span Morbi non efficitur nibh sit amet est eros.
+									span Want to share a comment on the road? Do it.
 								li.loc_icon
 									span Choose the position update frequency
 								li.share_icon
-									span Share your journey link and update into social network.
-											
+									span Share your journey link and updates into social media.
+								li.handle_icon
+									span Manage your journey informations and data from your app.
 							a.app_store_btn2.text-uppercase.animated.wow.fadeInLeft(href='/journey/?id=abcde')
 								span Web showcase
 								
@@ -153,6 +162,23 @@ html(lang='en-us')
 							li send images from the gallery or directly from the camera
 							li modify the GPS frequency update
 							li share the new status to any social media
+							
+		// Email Subscription Section
+		section#sub_box.sub_box
+			p.cta_text.animated.wow.fadeInDown Contact us!
+			.container.wrap-contact100
+				form.contact100-form(id='emailForm', action='javascript:sendEmail()')
+					.wrap-input100.rs1-wrap-input100(data-validate='Valid email is required: ex@abc.xyz')
+						input.mcs#mc-email(type='email', placeholder='Enter your email')
+					.wrap-input100.rs1-wrap-input100(data-validate='Name is required')
+						input.mcs#mc-subject(type='text', placeholder='Enter the subject')
+					.wrap-input100(data-validate='Message is required')
+						textarea.mcs#mc-message(name='Text1', cols='100%', rows='5',type='text', placeholder='Enter your message')
+					button#mc_submit(type='submit')
+						i.icon
+
+		// End Email Subscription Section
+
 		// Footer Section
 		footer
 			ul.list-unstyled.list-inline.app_platform

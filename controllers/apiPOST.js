@@ -4,11 +4,23 @@ var CommentTrack = require('../models/commentTrack')
 var Image = require('../models/image')
 var crypto = require('crypto');
 var shortId = require('short-mongo-id');
-
+var nodemailer = require('nodemailer');
 /**
  * http://usejsdoc.org/
  */
-
+var email_auth;
+if(process.env.EMAIL_PASSWORD != undefined && process.env.EMAIL_USERNAME != undefined) {
+	email_auth = {
+			user: process.env.EMAIL_USERNAME,
+		    pass: process.env.EMAIL_PASSWORD};
+}
+else {
+	var config = require('../config.json');
+	email_auth = {
+			user: config.email_username,
+		    pass: config.email_password
+		    };
+}
 exports.uploadComment =  function(req, res) {
 	var reqBody = req.body;
 	var secretKey = reqBody.secretKey;
@@ -173,6 +185,31 @@ exports.testSigned = function(req, res) {
 				res.status(404).send();
 			});
 		});
+}
+exports.sendEmail = function (req, res) {
+	var transporter = nodemailer.createTransport({
+			service: "hotmail",
+			auth: email_auth
+		});
+	
+	
+	var reqBody = req.body
+	var mailOptions = {
+			  from: reqBody.to,
+			  to: email_auth.user,
+			  subject: reqBody.subject,
+			  text: 'reqBody.msg'
+			  };
+	console.log(email_auth)
+	transporter.sendMail(mailOptions, function(error, info){
+		  if (error) {
+		    console.log(error);
+		  } else {
+		    console.log('Email sent: ' + info.response);
+		  }
+		}); 
+	
+	console.log(req.body)
 }
 
 exports.uploadFile= function(req, res) {

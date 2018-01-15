@@ -118,7 +118,7 @@ header{
 
 header .logo{
 	display: table-cell;
-	margin: 45px 100px 0 0;
+	margin: 10px 100px 0 0;
 }
 
 header .burger_icon{
@@ -465,7 +465,10 @@ a.app_link{
 	background: url('../img/icon4.png') no-repeat;
 	background-position: 0px 15px; 
 }
-
+.about .features_list ul li.handle_icon{	
+	background: url('../img/icon6.png') no-repeat;
+	background-position: 0px 15px; 
+}
 .about .features_list ul li span{
 	display: inline-block;
 }
@@ -537,11 +540,6 @@ a.app_link{
 
 
 #myBtcButton {
-	background-image: url('../img/support_bitcoin.png');
-	background-color: #f7931a;
-	background-size: 250px 49px;
-  height: 55px;  
-  width: 255px;
 	
 }
 
@@ -594,12 +592,169 @@ a.app_link{
 	display:inline-block;
 }
 
+/*		Subscription section 		*/
+
+.sub_box{
+	width: 100%;
+	padding: 100px 0;
+	text-align: center;
+
+}
+
+.sub_box .cta_text{
+	color: #41c17d;
+	font-family: "open_regular", Helvetica, Arial, sans-serif;
+	font-size: 20px;
+	margin-bottom: 10px;
+}
+
+.sub_box .mcs{
+	display: block;
+	width: 100%;
+	padding: 5px 20px;
+	background: #ffffe6;;
+	border: 0;
+	margin: 10px;
+	color: #41c17d;
+	font-family: "open_regular", Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	vertical-align: middle;
+
+	border-top-left-radius: 2px;
+	-o-border-top-left-radius: 2px;
+	-moz-border-top-left-radius: 2px;
+	-webkit-border-top-left-radius: 2px;
+
+	border-bottom-left-radius: 2px;
+	-o-border-bottom-left-radius: 2px;
+	-moz-border-bottom-left-radius: 2px;
+	-webkit-border-bottom-left-radius: 2px;
+
+	
+}
+
+.sub_box #mc_submit{
+	display: inline-block;
+	width: 100px;
+	height: 70px;
+
+	border-top-right-radius: 2px;
+	-o-border-top-right-radius: 2px;
+	-moz-border-top-right-radius: 2px;
+	-webkit-border-top-right-radius: 2px;
+
+	border-bottom-right-radius: 2px;
+	-o-border-bottom-right-radius: 2px;
+	-moz-border-bottom-right-radius: 2px;
+	-webkit-border-bottom-right-radius: 2px;
+
+	background-color:#41c17d;
+	border: 0;
+	outline: none;
+	margin-right: -4px;
+	text-align: center;
+	vertical-align: middle;
+}
+
+#mc-message{
+	
+}
+
+.sub_box #mc_submit i{
+	display: inline-block;
+	width: 20px;
+	height: 14px;
+	vertical-align: middle;
+}
+
+#mc_submit i.icon{
+	background: url('../img/sub_icon.png') no-repeat;
+}
+
+#mc_submit i.loading{
+	background: url('../img/loading.gif') no-repeat;
+}
+
+.sub_box .message{
+	display: block;
+	text-align: center;
+	color: #fff;
+	font-family: "open_regular", Helvetica, Arial, sans-serif;
+	font-size: 13px;
+	text-transform: lowercase;
+	margin-top: 20px;
+}
+
+.sub_box #error_msg,
+.sub_box #success_msg{
+	display: none;
+}
+.wrap-contact100 {
+  max-width: 1000px;
+  border-radius: 10px;
+  padding: 82px 180px 33px 180px;
+}
+
+.show-wrap-contact100 {
+  visibility: visible;
+  opacity: 1;
+}
+
+
+/*==================================================================
+[ Form ]*/
+
+.contact100-form {
+  width: 100%;
+  display: -webkit-box;
+  display: -webkit-flex;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  padding-bottom: 68px;
+}
+
+.contact100-form-title {
+  display: block;
+  width: 100%;
+  font-family: Poppins-Bold;
+  font-size: 39px;
+  color: #333333;
+  line-height: 1.2;
+  text-align: left;
+  padding-bottom: 44px;
+}
+
+
+
+/*------------------------------------------------------------------
+[ Input ]*/
+
+.wrap-input100 {
+  width: 100%;
+  position: relative;
+  border-bottom: 2px solid #d9d9d9;
+  padding-bottom: 13px;
+  margin-bottom: 65px;
+}
+
+.rs1-wrap-input100 {
+  width: calc((100% - 30px) / 2);
+}
+
 
 /*		Footer 		*/
 
 footer{
 	padding: 100px 0;
 	text-align: center;
+	background-color: #b3ffb3;
+	background-image: -moz-linear-gradient(bottom, #80ff80 0%, #80ff80 0.27%, #b3ffb3 99.46%, #b3ffb3 100%);
+	background-image: -o-linear-gradient(bottom, #80ff80 0%, #80ff80 0.27%, #b3ffb3 99.46%, #b3ffb3 100%);
+	background-image: -webkit-linear-gradient(bottom, #80ff80 0%, #80ff80 0.27%, #b3ffb3 99.46%, #b3ffb3 100%);
+	background-image: linear-gradient(bottom, #80ff80 0%, #80ff80 0.27%, #b3ffb3 99.46%, #b3ffb3 100%);
 }
 
 footer .app_platform li{

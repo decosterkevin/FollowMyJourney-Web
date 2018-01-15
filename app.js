@@ -15,6 +15,7 @@ var mongoose = require('mongoose');
 var compression = require('compression');
 var helmet = require('helmet');
 var mongoDB;
+
 if(process.env.MONGODB_URI != undefined) {
 	mongoDB = process.env.MONGODB_URI;
 }
@@ -22,6 +23,9 @@ else {
 	var config = require('./config.json');
 	mongoDB = 'mongodb://'+ config.username+':' +config.password+'@ds127506.mlab.com:27506/local_db';
 }
+
+
+
 console.log(mongoDB)
 
 var app = express();
@@ -89,6 +93,8 @@ app.post('/uploadComment', apiPOST.uploadComment)
 app.post('/uploadJourneyStatus', apiPOST.uploadJourneyStatus)
 app.post('/deleteFile', apiPOST.deleteFile)
 app.post('/uploadGPS', apiPOST.uploadGPS)
+app.post('/sendEmail', apiPOST.sendEmail)
+
 http.createServer(app).listen(app.get('port'), function(){
   console.log('Express server listening on port ' + app.get('port'));
 });
