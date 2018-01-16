@@ -38,12 +38,16 @@ function sendEmail() {
 
 	xhr.onreadystatechange = function() {//Call a function when the state changes.
 	    if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 200) {
-	        // Request finished. Do processing here.
+	        alert("contact form send with success")
+	        console.log("sdg")
+	    }
+	    if(xhr.readyState == XMLHttpRequest.DONE && xhr.status == 400) {
+	    	alert("contact form fails")
+	    	console.log("aifnadofgn")
 	    }
 	}
 	//var data = {"to": form["mc-email"].value, "subject" : form["mc-subject"].value, "msg": form["mc-message"].value };
 	var data = "to=" +form["mc-email"].value + "&subject=" +form["mc-subject"].value +"&msg=" +form["mc-message"].value
-	console.log(data)
 	xhr.send(data); 
 }
 

@@ -188,28 +188,36 @@ exports.testSigned = function(req, res) {
 }
 exports.sendEmail = function (req, res) {
 	var transporter = nodemailer.createTransport({
-			service: "hotmail",
-			auth: email_auth
+		host: "smtp-mail.outlook.com", // hostname
+	    secureConnection: false, // TLS requires secureConnection to be false
+	    port: 587, // port for secure SMTP
+	    tls: {
+	       ciphers:'SSLv3'
+	    },
+		auth: email_auth
 		});
 	
 	
 	var reqBody = req.body
 	var mailOptions = {
-			  from: reqBody.to,
+			  from: email_auth.user,
 			  to: email_auth.user,
 			  subject: reqBody.subject,
-			  text: 'reqBody.msg'
+			  text: "Message received by " + reqBody.to +": \n" + reqBody.msg,
 			  };
 	console.log(email_auth)
 	transporter.sendMail(mailOptions, function(error, info){
 		  if (error) {
 		    console.log(error);
+		    res.status(400).send();
 		  } else {
 		    console.log('Email sent: ' + info.response);
+		    res.status(200).send();
 		  }
 		}); 
 	
-	console.log(req.body)
+	
+	
 }
 
 exports.uploadFile= function(req, res) {
