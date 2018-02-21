@@ -6,7 +6,7 @@
 
 ## Usage
 
-
+Check the Dev version witht the [link](https://followmyjourney.herokuapp.com/)
 
 ## Developing
 
