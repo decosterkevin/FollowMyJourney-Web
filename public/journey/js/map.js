@@ -5,12 +5,12 @@ function MyMap(map) {
 	this.myMap = map;
 	this.timestamps= [];
 	this.coordinates = [];
-	this.polyline = null;
+	this.polylines = [];
 	this.totalDistance = 0;
+	this.speeds = [];
 	this.imageArrays = [];
 	this.bounds = new google.maps.LatLngBounds();
 	this.initMap = function(userID, bounds) {
-		console.log(bounds)
 		$.ajax({
 			url:'/tracks?id='+userID,
 			async: false,
@@ -20,44 +20,93 @@ function MyMap(map) {
 			success: function(data) {
 				
 				if(data.length > 0) {
-					var polylines = [];
+					var polylineTmp = [];
+					var polylinesTmp = this.polylines;
 					var tmpCoordinates = [];
 					var tmpTimestamp = [];
-					
+					var tmpSpeed = [];
 					var lastElem = data[data.length -1];
 					var lastCoord = new google.maps.LatLng(lastElem.coordinates[0] , lastElem.coordinates[1] );
+					
 					var min_dist= 500;
+					var min_time = 400;
 					var boundstmp = this.bounds;
+					var previousTime = null;
+					var previousCoord = null;
 					$.each(data, function(){
 						
 						var ptnLatLng =  new google.maps.LatLng(this.coordinates[0] , this.coordinates[1]);
 						var ptn = {lat:this.coordinates[0] , lng: this.coordinates[1]};
 						var distance = google.maps.geometry.spherical.computeDistanceBetween(lastCoord, ptnLatLng);
-						console.log(distance);
+						
+						if(previousCoord == null) {
+							previousCoord = ptnLatLng;
+						}
+							
+						if(previousTime == null) {
+							previousTime = this.timestamp;
+						}
 						if(distance > min_dist)
 						{
 							tmpTimestamp.push(this.timestamp);
-							polylines.push(ptn);
 							tmpCoordinates.push(ptnLatLng);
 							boundstmp.extend(ptn);
+							var distanceTmp = google.maps.geometry.spherical.computeDistanceBetween(previousCoord, ptnLatLng);
+							var timeDiff = Math.abs(new Date(previousTime) - new Date(this.timestamp))/1000.0;
+							var speed = 0.0;
+							
+							if(timeDiff == 0.0) {
+								speed = Infinity;
+							}
+							else {
+								speed = distanceTmp/timeDiff
+							}
+							tmpSpeed.push(speed);
+							
+							if((speed < 0.1) || timeDiff > 1000) {
+								//console.log("speed"+speed);
+								var pol = new google.maps.Polyline({
+									path: polylineTmp,
+									geodesic: true,
+									strokeColor: '#FF0000',
+									strokeOpacity: 1.0,
+									strokeWeight: 2
+								});
+								polylinesTmp.push(pol);
+								polylineTmp = [];
+								
+							}
+							polylineTmp.push(ptnLatLng);
+							
+							
 						}
+						previousCoord = ptnLatLng;
+						previousTime = this.timestamp;
 						
 					});
 					this.bounds = boundstmp;
+					this.speeds = tmpSpeed;
 					if(tmpCoordinates.length != 0) {
 						min_dist = google.maps.geometry.spherical.computeDistanceBetween(lastCoord, tmpCoordinates[tmpCoordinates.length-1]);
 
 					}
-					console.log(min_dist);
-					this.polyline = new google.maps.Polyline({
-						path: polylines,
+					var pol = new google.maps.Polyline({
+						path: polylineTmp,
 						geodesic: true,
 						strokeColor: '#FF0000',
 						strokeOpacity: 1.0,
 						strokeWeight: 2
 					});
-					this.totalDistance = google.maps.geometry.spherical.computeLength(this.polyline.getPath().getArray());
-					this.polyline.setMap(this.myMap);
+					polylinesTmp.push(pol);
+					
+					this.polylines = polylinesTmp;
+					
+					
+					for(i=0; i < this.polylines.length; i++){
+						var pol = this.polylines[i];
+						this.totalDistance += google.maps.geometry.spherical.computeLength(pol.getPath().getArray());
+						pol.setMap(this.myMap);
+					}
 					
 					
 					var tmpMap = this.myMap;
@@ -113,28 +162,30 @@ function MyMap(map) {
 		var time = this.timestamps;
 		var coord = this.coordinates;
 		var map = this.myMap;
-		if(this.polyline != null) {
-			google.maps.event.addListener(this.polyline,'click', function(e) {
-				var minDist = Number.MAX_VALUE;
-				var index = 0;
-				for(i = 0; i < time.length; i++) {
-					var distance = google.maps.geometry.spherical.computeDistanceBetween(e.latLng, coord[i]);
-					if (distance < minDist) {
-						minDist = distance;
-						index = i;
+		var speed = this.speeds;
+		for(i = 0; i< this.polylines.length; i++) {
+			if(this.polylines[i] != null) {
+				google.maps.event.addListener(this.polylines[i],'click', function(e) {
+					var minDist = Number.MAX_VALUE;
+					var index = 0;
+					for(i = 0; i < time.length; i++) {
+						var distance = google.maps.geometry.spherical.computeDistanceBetween(e.latLng, coord[i]);
+						if (distance < minDist) {
+							minDist = distance;
+							index = i;
+						}
 					}
-				}
-				infoWindow.setPosition(e.latLng);
-				infoWindow.setContent("<b>Date:</b> " +time[index] +"<br> <b>Coordinates</b> (lat,lng) :"+e.latLng.lat().toFixed(4) + ", " +e.latLng.lng().toFixed(4));
-				infoWindow.open(map);
-			});
+					infoWindow.setPosition(e.latLng);
+					infoWindow.setContent("<b>Date:</b> " +time[index] +"<br> <b>Coordinates</b> (lat,lng) :"+e.latLng.lat().toFixed(4) + ", " +e.latLng.lng().toFixed(4) + "<br> <b>Speed</b>" + speed[index	]);
+					infoWindow.open(map);
+				});
+			}
 		}
+		
 		
 	}
 	
 	this.addImages = function(userID, bounds) {
-		
-		
 		
 		//Images
 		var arrayMarkers = [];
